@@ -1,3 +1,5 @@
+:-consult('tda_option_21292380_lagoslagos.pl').
+:-consult('tda_flow_21292380_lagoslagos.pl').
 
 %RF2-Constructor
 %option/6
@@ -10,3 +12,9 @@ option(Code, Message, ChatbotCodeLink, InitialFlowCodeLink, Keyword,[Code, Messa
 %RF3-falta implementar "eliminarduplicados"
 flow(Id, NameMsg, Options, [Id, NameMsg, OptionsFinal]) :-
     eliminarduplicados(Options, OptionsFinal).
+
+%RF4
+flowAddOption(Flow, NewOption, NewFlow) :-
+    flow(Id, NameMsg, Options, Flow),
+    agregarFlow(NewOption, Options, NewOptions),
+    flow(Id, NameMsg, NewOptions, NewFlow).
