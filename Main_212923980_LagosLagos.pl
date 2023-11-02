@@ -9,12 +9,23 @@
 %Meta Secundaria: No aplica
 option(Code, Message, ChatbotCodeLink, InitialFlowCodeLink, Keyword,[Code, Message, ChatbotCodeLink, InitialFlowCodeLink, Keyword]).
 
-%RF3-falta implementar "eliminarduplicados"
-flow(Id, NameMsg, Options, [Id, NameMsg, OptionsFinal]) :-
-    eliminarduplicados(Options, OptionsFinal).
+%RF3-
+flow(Id, NameMsg, Options, [Id, NameMsg, OptionsFinal]):-
+    getCodesOption(Options, Codes),
+    eliminarOptionDuplicadas(Codes, Options, [], OptionsFinal).
 
-%RF4
-flowAddOption(Flow, NewOption, NewFlow) :-
+%RF4- se queda en un bucle cuando no debe agregar la opcion
+flowAddOption(Flow, NewOption, NewFlow):-
     flow(Id, NameMsg, Options, Flow),
-    agregarFlow(NewOption, Options, NewOptions),
-    flow(Id, NameMsg, NewOptions, NewFlow).
+    getCodesOption(Options, Codes),
+    getCodeOption(NewOption, NewCode),
+    (\+ member(NewCode, Codes) ->
+	OptionsFinal = [NewOption|Options]
+    ;
+	OptionsFinal = Options),
+    flow(Id, NameMsg, OptionsFinal, NewFlow).
+
+%RF5-
+chatbot(ChatbotID, Name, WelcomeMessage, StartFlowId, Flows, [ChatbotID, Name, WelcomeMessage, StartFlowId, FlowsFinal]):-
+    getIdsFlow(Flows, Ids),
+    eliminarFlowDuplicados(Ids, Flows, [], FlowsFinal).
