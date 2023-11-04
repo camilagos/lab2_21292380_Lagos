@@ -16,15 +16,31 @@ getCodesOption([Option|Options], [Code|Codes]) :-
     getCodesOption(Options, Codes).
 
 
-eliminarOptionDuplicadas([], [], Acumulador, Acumulador).
+agregarOptionFinal(NewOption, Options, OptionsOut) :-
+    append(Options, [NewOption], OptionsOut).
 
-eliminarOptionDuplicadas([Code|Codes], [Option|Options], Acumulador, OptionsFinal) :-
-    \+ existeCodeinCodes(Code, Codes),
-    eliminarOptionDuplicadas(Codes, Options, [Option|Acumulador], OptionsFinal).
 
-eliminarOptionDuplicadas([Code|Codes], [_|Options], Acumulador, OptionsFinal) :-
+agregarSinRepetirOp([], [], Acumulador, Acumulador).
+
+agregarSinRepetirOp([Option|Options], [Code|Codes], Acumulador, OptionsFinal) :-
     existeCodeinCodes(Code, Codes),
-    eliminarOptionDuplicadas(Codes, Options, Acumulador, OptionsFinal).
+    agregarSinRepetirOp(Options, Codes, Acumulador, OptionsFinal).
+
+agregarSinRepetirOp([Option|Options], [Code|Codes], Acumulador, OptionsFinal) :-
+    \+ existeCodeinCodes(Code, Codes),
+    agregarOptionFinal(Option, Acumulador, AcumuladorOut),
+    agregarSinRepetirOp(Options, Codes, AcumuladorOut, OptionsFinal).
+
+
+agregarSinRepetirNewOp(Options, Codes, NewOption, OptionsFinal) :-
+    getCodeOption(NewOption, NewCode),
+    \+ existeCodeinCodes(NewCode, Codes),
+    agregarOptionFinal(NewOption, Options, OptionsFinal).
+
+agregarSinRepetirNewOp(Options, Codes, NewOption, OptionsFinal) :-
+    getCodeOption(NewOption, NewCode),
+    existeCodeinCodes(NewCode, Codes),
+    OptionsFinal = Options.
 
 
 mayuscula(Keyword, KeywordMayus) :-
