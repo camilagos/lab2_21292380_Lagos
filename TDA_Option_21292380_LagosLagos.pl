@@ -22,7 +22,7 @@ agregarOptionFinal(NewOption, Options, OptionsOut) :-
 
 agregarSinRepetirOp([], [], Acumulador, Acumulador).
 
-agregarSinRepetirOp([Option|Options], [Code|Codes], Acumulador, OptionsFinal) :-
+agregarSinRepetirOp([_|Options], [Code|Codes], Acumulador, OptionsFinal) :-
     existeCodeinCodes(Code, Codes),
     agregarSinRepetirOp(Options, Codes, Acumulador, OptionsFinal).
 

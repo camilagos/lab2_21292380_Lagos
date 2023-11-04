@@ -60,3 +60,8 @@ chatbotAddFlow(Chatbot, NewFlow, ChatbotOut) :-
     getIdsFlow(Flows, Ids),
     agregarSinRepetirNewFlow(Flows, Ids, NewFlow, FlowsFinal),
     chatbot(ChatbotID, Name, WelcomeMessage, StartFlowId, FlowsFinal, ChatbotOut).
+
+
+system(Name, InitialChatbotCodeLink, Chatbots, [Name, InitialChatbotCodeLink, ChatbotsFinal]) :-
+    getIdsCB(Chatbots, ChatbotIDs),
+    agregarSinRepetirCB(Chatbots, ChatbotIDs, [], ChatbotsFinal).
