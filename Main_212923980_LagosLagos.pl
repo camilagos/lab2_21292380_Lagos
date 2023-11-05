@@ -25,7 +25,7 @@ flow(Id, NameMsg, Options, [Id, NameMsg, OptionsFinal]) :-
 %Dom: Flow (List) X NewOption (List) X FlowOut (List)
 %Meta Primaria: flowAddOption/3
 %Meta Secundaria: getIdFlow/2, getNameMsgFlow/2, getOptionsFlow/2,
-% getCodesOption/2, agregarSinRepetirNewOp/4
+% getCodesOption/2, agregarSinRepetirNewOp/4, flow/4
 flowAddOption(Flow, NewOption, FlowOut) :-
     getIdFlow(Flow, Id),
     getNameMsgFlow(Flow, NameMsg),
@@ -49,8 +49,8 @@ chatbot(ChatbotID, Name, WelcomeMessage, StartFlowId, Flows, [ChatbotID, Name, W
 %Dom: Chatbot (List) X NewFlow (List) X ChatbotOut (List)
 %Meta Primaria: chatbotAddFlow/3
 %Meta Secundaria: getIdCB/2, getNameCB/2, getMsgCB/2,
-% getStartFlowIdCB/2, getFlowsCB/2, getIdsFlow/2
-% agregarSinRepetirNewFlow/4
+%getStartFlowIdCB/2, getFlowsCB/2, getIdsFlow/2
+%agregarSinRepetirNewFlow/4, chatbot/6
 chatbotAddFlow(Chatbot, NewFlow, ChatbotOut) :-
     getIdCB(Chatbot, ChatbotID),
     getNameCB(Chatbot, Name),
@@ -62,6 +62,27 @@ chatbotAddFlow(Chatbot, NewFlow, ChatbotOut) :-
     chatbot(ChatbotID, Name, WelcomeMessage, StartFlowId, FlowsFinal, ChatbotOut).
 
 
+%RF7-Constructor
+%system/3
+%Dom: Name (String) X InitialChatbotCodeLink (Number) X Chatbots (List)
+%X system (List)
+%Meta Primaria: system/3
+%Meta Secundaria: getIdsCB/2, agregarSinRepetirCB/4
 system(Name, InitialChatbotCodeLink, Chatbots, [Name, InitialChatbotCodeLink, ChatbotsFinal]) :-
     getIdsCB(Chatbots, ChatbotIDs),
     agregarSinRepetirCB(Chatbots, ChatbotIDs, [], ChatbotsFinal).
+
+
+%RF8-Modificador
+%systemAddChatbot/3
+%Dom: System (List) X NewChatbot (List) X SystemOut (List)
+%Meta Primaria: systemAddChatbot/3
+%Meta Secundaria: getNameSystem/2, getCBCodeSystem/2, getCBsSystem/2,
+%getIdsCB/2, agregarSinRepetirNewCB/4, system/4
+systemAddChatbot(System, NewChatbot, SystemOut) :-
+    getNameSystem(System, Name),
+    getCBCodeSystem(System, InitialChatbotCodeLink),
+    getCBsSystem(System, Chatbots),
+    getIdsCB(Chatbots, ChatbotIDs),
+    agregarSinRepetirNewCB(Chatbots, ChatbotIDs, NewChatbot, ChatbotsFinal),
+    system(Name, InitialChatbotCodeLink, ChatbotsFinal, SystemOut).

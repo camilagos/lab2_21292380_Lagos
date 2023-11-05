@@ -40,3 +40,14 @@ agregarSinRepetirCB([Chatbot|Chatbots], [ChatbotID|ChatbotIDs], Acumulador, Chat
     \+ existeCBIDinIDs(ChatbotID,ChatbotIDs),
     agregarCBFinal(Chatbot, Acumulador, AcumuladorOut),
     agregarSinRepetirCB(Chatbots, ChatbotIDs, AcumuladorOut, ChatbotsFinal).
+
+
+agregarSinRepetirNewCB(Chatbots, ChatbotIDs, NewChatbot, ChatbotsFinal) :-
+    getIdCB(NewChatbot, NewID),
+    \+ existeCBIDinIDs(NewID, ChatbotIDs),
+    agregarCBFinal(NewChatbot, Chatbots, ChatbotsFinal).
+
+agregarSinRepetirNewCB(Chatbots, ChatbotIDs, NewChatbot, ChatbotsFinal) :-
+    getIdCB(NewChatbot, NewID),
+    existeCBIDinIDs(NewID, ChatbotIDs),
+    ChatbotsFinal = Chatbots.
