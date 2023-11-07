@@ -7,7 +7,7 @@
 %RF2-Constructor
 %option/6
 %Dom: Code (Number) X Message (String) x ChatbotCodeLink (Number) X
-%InitialFlowCodeLink (Number) X Keyword (List) X option (List)
+%InitialFlowCodeLink (Number) X Keyword (List) X Option (List)
 %Meta Primaria: option/6
 %Meta Secundaria: allMayus/2
 option(Code, Message, ChatbotCodeLink, InitialFlowCodeLink, Keyword,[Code, Message, ChatbotCodeLink, InitialFlowCodeLink, KeywordMayus]) :-
@@ -16,7 +16,7 @@ option(Code, Message, ChatbotCodeLink, InitialFlowCodeLink, Keyword,[Code, Messa
 
 %RF3-Constructor
 %flow/4
-%Dom: Id (Number) X NameMsg (String) X Options (List) X flow (List)
+%Dom: Id (Number) X NameMsg (String) X Options (List) X Flow (List)
 %Meta Primaria: flow/4
 %Meta Secundaria: getCodesOption/2, agregarSinRepetirOp/4
 flow(Id, NameMsg, Options, [Id, NameMsg, OptionsFinal]) :-
@@ -42,7 +42,7 @@ flowAddOption(Flow, NewOption, FlowOut) :-
 %RF5-Constructor
 %chatbot/6
 %Dom: ChatbotID (Number) X Name (String) X WelcomeMessage (String) X
-%StartFlowId (Number) X Flows (List) X chatbot (List)
+% StartFlowId (Number) X Flows (List) X Chatbot (List)
 %Meta Primaria: chatbot/6
 %Meta Secundaria: getIdsFlow/2, agregarSinRepetirFlow/4
 chatbot(ChatbotID, Name, WelcomeMessage, StartFlowId, Flows, [ChatbotID, Name, WelcomeMessage, StartFlowId, FlowsFinal]) :-
@@ -55,8 +55,8 @@ chatbot(ChatbotID, Name, WelcomeMessage, StartFlowId, Flows, [ChatbotID, Name, W
 %Dom: Chatbot (List) X NewFlow (List) X ChatbotOut (List)
 %Meta Primaria: chatbotAddFlow/3
 %Meta Secundaria: getIdCB/2, getNameCB/2, getMsgCB/2,
-%getStartFlowIdCB/2, getFlowsCB/2, getIdsFlow/2
-%agregarSinRepetirNewFlow/4, chatbot/6
+% getStartFlowIdCB/2, getFlowsCB/2, getIdsFlow/2
+% agregarSinRepetirNewFlow/4, chatbot/6
 chatbotAddFlow(Chatbot, NewFlow, ChatbotOut) :-
     getIdCB(Chatbot, ChatbotID),
     getNameCB(Chatbot, Name),
@@ -69,11 +69,11 @@ chatbotAddFlow(Chatbot, NewFlow, ChatbotOut) :-
 
 
 %RF7-Constructor
-%system/3
+%system/4
 %Dom: Name (String) X InitialChatbotCodeLink (Number) X Chatbots (List)
-%X system (List)
-%Meta Primaria: system/3
-%Meta Secundaria: getIdsCB/2, agregarSinRepetirCB/4
+% X System (List)
+%Meta Primaria: system/4
+%Meta Secundaria: getIdsCB/2, agregarSinRepetirCB/4, get_time/1
 system(Name, InitialChatbotCodeLink, Chatbots, [Name, InitialChatbotCodeLink, ChatbotsFinal, Time, [], [], "Sin interacciones válidas", []]) :-
     getIdsCB(Chatbots, ChatbotIDs),
     agregarSinRepetirCB(Chatbots, ChatbotIDs, [], ChatbotsFinal),
@@ -85,7 +85,9 @@ system(Name, InitialChatbotCodeLink, Chatbots, [Name, InitialChatbotCodeLink, Ch
 %Dom: System (List) X NewChatbot (List) X SystemOut (List)
 %Meta Primaria: systemAddChatbot/3
 %Meta Secundaria: getNameSystem/2, getCBCodeSystem/2, getCBsSystem/2,
-%getIdsCB/2, agregarSinRepetirNewCB/4, system/4
+% getIdsCB/2, agregarSinRepetirNewCB/4, getTimeSystem/2,
+% getUsersSystem/2, getUserLogueado/2, getEstadoSystem/2,
+% getNewCodesSystem/2, systemAux/9
 systemAddChatbot(System, NewChatbot, SystemOut) :-
     getNameSystem(System, Name),
     getCBCodeSystem(System, InitialChatbotCodeLink),
@@ -98,3 +100,24 @@ systemAddChatbot(System, NewChatbot, SystemOut) :-
     getEstadoSystem(System, Estado),
     getNewCodesSystem(System, NewCodes),
     systemAux(Name, InitialChatbotCodeLink, ChatbotsFinal, Time, Users, UserLogueado, Estado, NewCodes, SystemOut).
+
+
+%RF9-Modificador
+%systemAddUser/3
+%Dom: System (List) X NameUser (String) X SystemOut (List)
+%Meta Primaria: systemAddUser/3
+%Meta Secundaria: getNameSystem/2, getCBCodeSystem/2, getCBsSystem/2,
+% getTimeSystem/2, getUsersSystem/2, agregarNewUser/3,
+% getUserLogueadoSystem/2, getEstadoSystem/2, getNewCodesSystem/2,
+% systemAux/9
+systemAddUser(System, NameUser, SystemOut) :-
+    getNameSystem(System, Name),
+    getCBCodeSystem(System, InitialChatbotCodeLink),
+    getCBsSystem(System, Chatbots),
+    getTimeSystem(System, Time),
+    getUsersSystem(System, Users),
+    agregarNewUser(NameUser, Users, UsersFinal),
+    getUserLogueadoSystem(System, UserLogueado),
+    getEstadoSystem(System, Estado),
+    getNewCodesSystem(System, NewCodes),
+    systemAux(Name, InitialChatbotCodeLink, Chatbots, Time, UsersFinal, UserLogueado, Estado, NewCodes, SystemOut).
