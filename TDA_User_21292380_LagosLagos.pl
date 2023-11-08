@@ -15,6 +15,11 @@ getNamesUser([User|Users], [Name|Names]) :-
 getChatHistoryUser(User, ChatHistory) :-
     User = [_, ChatHistory|_].
 
+agregarUserFinal(NewUser, [], [NewUser]).
+
+agregarUserFinal(NewUser, [User|Users], [User|UsersFinal]) :-
+    agregarUserFinal(NewUser, Users, UsersFinal).
+
 agregarNewUser(NewNameUser, Users, UsersFinal) :-
     getNamesUser(Users, Names),
     mayuscula(NewNameUser, NameUser),
@@ -27,3 +32,20 @@ agregarNewUser(NewNameUser, Users, UsersFinal) :-
     mayuscula(NewNameUser, NameUser),
     existeUserinUsers(NameUser, Names),
     UsersFinal = Users.
+
+noExisteUserLogueado([]).
+
+
+login(User, NamesUsers, UserLogueado, UserLogueadoOut) :-
+    existeUserinUsers(User, NamesUsers),
+    noExisteUserLogueado(UserLogueado),
+    UserLogueadoOut = User.
+
+login(User, NamesUsers, UserLogueado, UserLogueadoOut) :-
+    existeUserinUsers(User, NamesUsers),
+    \+ noExisteUserLogueado(UserLogueado),
+    UserLogueadoOut = UserLogueado.
+
+login(User, NamesUsers, UserLogueado, UserLogueadoOut) :-
+    \+ existeUserinUsers(User, NamesUsers),
+    UserLogueadoOut = UserLogueado.

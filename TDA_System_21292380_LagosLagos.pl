@@ -1,5 +1,5 @@
 
-systemAux(Name, IniatialChatbotCodeLink, Chatbots, Time, Users, UserLogueado, Estado, NewCodes, [Name, IniatialChatbotCodeLink, Chatbots, Time, Users, UserLogueado, Estado, NewCodes]).
+systemAux(Name, InitialChatbotCodeLink, Chatbots, Time, Users, UserLogueado, Estado, NewCodes, [Name, InitialChatbotCodeLink, Chatbots, Time, Users, UserLogueado, Estado, NewCodes]).
 
 getNameSystem(System, Name) :-
     System = [Name|_].

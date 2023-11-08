@@ -7,7 +7,7 @@
 %RF2-Constructor
 %option/6
 %Dom: Code (Number) X Message (String) x ChatbotCodeLink (Number) X
-%InitialFlowCodeLink (Number) X Keyword (List) X Option (List)
+% InitialFlowCodeLink (Number) X Keyword (List) X Option (List)
 %Meta Primaria: option/6
 %Meta Secundaria: allMayus/2
 option(Code, Message, ChatbotCodeLink, InitialFlowCodeLink, Keyword,[Code, Message, ChatbotCodeLink, InitialFlowCodeLink, KeywordMayus]) :-
@@ -121,3 +121,28 @@ systemAddUser(System, NameUser, SystemOut) :-
     getEstadoSystem(System, Estado),
     getNewCodesSystem(System, NewCodes),
     systemAux(Name, InitialChatbotCodeLink, Chatbots, Time, UsersFinal, UserLogueado, Estado, NewCodes, SystemOut).
+
+
+%RF10
+%systemLogin/3
+%Dom: System (List) X User (String) X SystemOut (List)
+%Meta Primaria: systemLogin/3
+%Meta Secundaria: mayuscula/2, getUsersSystem/2, getNamesUser/2,
+% getUserLogueadoSystem/2, login/4, getNameSystem/2, getCBCodeSystem/2,
+% getCBsSystem/2, getTimeSystem/2, getUsersSystem/2, getEstadoSystem/2,
+% getNewCodesSystem/2, systemAux/9
+systemLogin(System, User, SystemOut) :-
+    mayuscula(User, NameUser),
+    getUsersSystem(System, Users),
+    getNamesUser(Users, NamesUsers),
+    getUserLogueadoSystem(System, UserLogueado),
+    login(NameUser, NamesUsers, UserLogueado, UserLogueadoOut),
+    getNameSystem(System, Name),
+    getCBCodeSystem(System, InitialChatbotCodeLink),
+    getCBsSystem(System, Chatbots),
+    getTimeSystem(System, Time),
+    getUsersSystem(System, Users),
+    getEstadoSystem(System, Estado),
+    getNewCodesSystem(System, NewCodes),
+    systemAux(Name, InitialChatbotCodeLink, Chatbots, Time, Users, UserLogueadoOut, Estado, NewCodes, SystemOut).
+
