@@ -1,6 +1,8 @@
 
 systemAux(Name, InitialChatbotCodeLink, Chatbots, Time, Users, UserLogueado, Estado, NewCodes, [Name, InitialChatbotCodeLink, Chatbots, Time, Users, UserLogueado, Estado, NewCodes]).
 
+%------------------SELECTORES--------------------
+
 getNameSystem(System, Name) :-
     System = [Name|_].
 

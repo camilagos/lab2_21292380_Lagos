@@ -1,7 +1,11 @@
 user(Name, ChatHistory, [Name, ChatHistory]).
 
+%------------------PERTENENCIA--------------------
+
 existeUserinUsers(NameUser, NamesUsers) :-
     member(NameUser, NamesUsers).
+
+%------------------SELECTORES--------------------
 
 getNameUser(User, Name) :-
     User = [Name|_].
@@ -15,6 +19,8 @@ getNamesUser([User|Users], [Name|Names]) :-
 getChatHistoryUser(User, ChatHistory) :-
     User = [_, ChatHistory|_].
 
+%-------------------MODIFICADORES--------------------
+
 agregarUserFinal(NewUser, [], [NewUser]).
 
 agregarUserFinal(NewUser, [User|Users], [User|UsersFinal]) :-
@@ -27,6 +33,7 @@ agregarNewUser(NewNameUser, Users, UsersFinal) :-
     user(NameUser, [], NewUser),
     agregarUserFinal(NewUser, Users, UsersFinal).
 
+%-------------------OTROS--------------------
 
 noExisteUserLogueado([]).
 
@@ -35,3 +42,7 @@ login(User, NamesUsers, UserLogueado, UserLogueadoOut) :-
     existeUserinUsers(User, NamesUsers),
     noExisteUserLogueado(UserLogueado),
     UserLogueadoOut = User.
+
+
+logout(User, []) :-
+    User \== [].

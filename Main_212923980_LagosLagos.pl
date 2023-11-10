@@ -165,3 +165,23 @@ systemLogin(System, User, SystemOut) :-
     getNewCodesSystem(System, NewCodes),
     systemAux(Name, InitialChatbotCodeLink, Chatbots, Time, Users, UserLogueadoOut, Estado, NewCodes, SystemOut).
 
+
+%RF11
+%systemLogout/2
+%Descripción: Regla que cierra la sesión iniciada en el sistema.
+%Dom: System (List) X SystemOut (List)
+%Meta Primaria: systemLogout/2
+%Meta Secundaria: getUserLogueadoSystem/2, logout/2, getNameSystem/2,
+% getCBCodeSystem/2, getCBsSystem/2, getTimeSystem/2,
+% getUsersSystem/2, getNewCodesSystem/2, systemAux/9
+systemLogout(System, SystemOut) :-
+    getUserLogueadoSystem(System, UserLogueado),
+    logout(UserLogueado, UserLogueadoOut),
+    getNameSystem(System, Name),
+    getCBCodeSystem(System, InitialChatbotCodeLink),
+    getCBsSystem(System, Chatbots),
+    getTimeSystem(System, Time),
+    getUsersSystem(System, Users),
+    Estado = "Sin interacciones válidas",
+    getNewCodesSystem(System, NewCodes),
+    systemAux(Name, InitialChatbotCodeLink, Chatbots, Time, Users, UserLogueadoOut, Estado, NewCodes, SystemOut).
