@@ -31,9 +31,6 @@ agregarFlowFinal(NewFlow, [Flow|Flows], [Flow|FlowsFinal]) :-
 
 agregarSinRepetirFlow([], [], Acumulador, Acumulador).
 
-agregarSinRepetirFlow([_|Flows], [Id|Ids], Acumulador, FlowsFinal) :-
-    existeIdinIds(Id, Ids),
-    agregarSinRepetirFlow(Flows, Ids, Acumulador, FlowsFinal).
 
 agregarSinRepetirFlow([Flow|Flows], [Id|Ids], Acumulador, FlowsFinal) :-
     \+ existeIdinIds(Id, Ids),
@@ -45,8 +42,3 @@ agregarSinRepetirNewFlow(Flows, Ids, NewFlow, FlowsFinal) :-
     getIdFlow(NewFlow, NewId),
     \+ existeCodeinCodes(NewId, Ids),
     agregarFlowFinal(NewFlow, Flows, FlowsFinal).
-
-agregarSinRepetirNewFlow(Flows, Ids, NewFlow, FlowsFinal) :-
-    getIdFlow(NewFlow, NewId),
-    existeCodeinCodes(NewId, Ids),
-    FlowsFinal = Flows.

@@ -32,9 +32,6 @@ agregarCBFinal(NewCB, [Chatbot|Chatbots], [Chatbot|ChatbotsFinal]) :-
 
 agregarSinRepetirCB([], [], Acumulador, Acumulador).
 
-agregarSinRepetirCB([_|Chatbots], [ChatbotID|ChatbotIDs], Acumulador, ChatbotsFinal) :-
-    existeCBIDinIDs(ChatbotID,ChatbotIDs),
-    agregarSinRepetirCB(Chatbots, ChatbotIDs, Acumulador, ChatbotsFinal).
 
 agregarSinRepetirCB([Chatbot|Chatbots], [ChatbotID|ChatbotIDs], Acumulador, ChatbotsFinal) :-
     \+ existeCBIDinIDs(ChatbotID,ChatbotIDs),
@@ -46,8 +43,3 @@ agregarSinRepetirNewCB(Chatbots, ChatbotIDs, NewChatbot, ChatbotsFinal) :-
     getIdCB(NewChatbot, NewID),
     \+ existeCBIDinIDs(NewID, ChatbotIDs),
     agregarCBFinal(NewChatbot, Chatbots, ChatbotsFinal).
-
-agregarSinRepetirNewCB(Chatbots, ChatbotIDs, NewChatbot, ChatbotsFinal) :-
-    getIdCB(NewChatbot, NewID),
-    existeCBIDinIDs(NewID, ChatbotIDs),
-    ChatbotsFinal = Chatbots.

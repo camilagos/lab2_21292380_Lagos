@@ -27,11 +27,6 @@ agregarNewUser(NewNameUser, Users, UsersFinal) :-
     user(NameUser, [], NewUser),
     agregarUserFinal(NewUser, Users, UsersFinal).
 
-agregarNewUser(NewNameUser, Users, UsersFinal) :-
-    getNamesUser(Users, Names),
-    mayuscula(NewNameUser, NameUser),
-    existeUserinUsers(NameUser, Names),
-    UsersFinal = Users.
 
 noExisteUserLogueado([]).
 
@@ -40,12 +35,3 @@ login(User, NamesUsers, UserLogueado, UserLogueadoOut) :-
     existeUserinUsers(User, NamesUsers),
     noExisteUserLogueado(UserLogueado),
     UserLogueadoOut = User.
-
-login(User, NamesUsers, UserLogueado, UserLogueadoOut) :-
-    existeUserinUsers(User, NamesUsers),
-    \+ noExisteUserLogueado(UserLogueado),
-    UserLogueadoOut = UserLogueado.
-
-login(User, NamesUsers, UserLogueado, UserLogueadoOut) :-
-    \+ existeUserinUsers(User, NamesUsers),
-    UserLogueadoOut = UserLogueado.

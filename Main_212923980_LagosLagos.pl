@@ -6,8 +6,10 @@
 
 %RF2-Constructor
 %option/6
-%Dom: Code (Number) X Message (String) x ChatbotCodeLink (Number) X
-% InitialFlowCodeLink (Number) X Keyword (List) X Option (List)
+%Descrpción: Regla que construye una opción, despues de dejar todas las
+% keywords en mayuscula.
+%Dom: Code (Int) X Message (String) x ChatbotCodeLink (Int) X
+% InitialFlowCodeLink (Int) X Keyword (List) X Option (List)
 %Meta Primaria: option/6
 %Meta Secundaria: allMayus/2
 option(Code, Message, ChatbotCodeLink, InitialFlowCodeLink, Keyword,[Code, Message, ChatbotCodeLink, InitialFlowCodeLink, KeywordMayus]) :-
@@ -16,7 +18,9 @@ option(Code, Message, ChatbotCodeLink, InitialFlowCodeLink, Keyword,[Code, Messa
 
 %RF3-Constructor
 %flow/4
-%Dom: Id (Number) X NameMsg (String) X Options (List) X Flow (List)
+%Descripción: Regla que construye un flujo, solo si no se ingresaron
+% opciones duplicadas en el listado de las opciones del flujo.
+%Dom: Id (Int) X NameMsg (String) X Options (List) X Flow (List)
 %Meta Primaria: flow/4
 %Meta Secundaria: getCodesOption/2, agregarSinRepetirOp/4
 flow(Id, NameMsg, Options, [Id, NameMsg, OptionsFinal]) :-
@@ -26,6 +30,8 @@ flow(Id, NameMsg, Options, [Id, NameMsg, OptionsFinal]) :-
 
 %RF4-Modificador
 %flowAddOption/3
+%Descripción: Regla que agrega una opcion a un flujo, únicamente si
+% esta no era parte del flujo antes.
 %Dom: Flow (List) X NewOption (List) X FlowOut (List)
 %Meta Primaria: flowAddOption/3
 %Meta Secundaria: getIdFlow/2, getNameMsgFlow/2, getOptionsFlow/2,
@@ -41,8 +47,10 @@ flowAddOption(Flow, NewOption, FlowOut) :-
 
 %RF5-Constructor
 %chatbot/6
-%Dom: ChatbotID (Number) X Name (String) X WelcomeMessage (String) X
-% StartFlowId (Number) X Flows (List) X Chatbot (List)
+%Descripción: Regla que construye un chatbot, solo si la lista de
+% flujos ingresada no tiene flujos repetidos.
+%Dom: ChatbotID (Int) X Name (String) X WelcomeMessage (String) X
+% StartFlowId (Int) X Flows (List) X Chatbot (List)
 %Meta Primaria: chatbot/6
 %Meta Secundaria: getIdsFlow/2, agregarSinRepetirFlow/4
 chatbot(ChatbotID, Name, WelcomeMessage, StartFlowId, Flows, [ChatbotID, Name, WelcomeMessage, StartFlowId, FlowsFinal]) :-
@@ -52,6 +60,8 @@ chatbot(ChatbotID, Name, WelcomeMessage, StartFlowId, Flows, [ChatbotID, Name, W
 
 %RF6-Modificador
 %chatbotAddFlow/3
+%Descripción: Regla que agrega un flujo a un chatbot, únicamente si
+% este no era parte del chatbot antes.
 %Dom: Chatbot (List) X NewFlow (List) X ChatbotOut (List)
 %Meta Primaria: chatbotAddFlow/3
 %Meta Secundaria: getIdCB/2, getNameCB/2, getMsgCB/2,
@@ -70,7 +80,9 @@ chatbotAddFlow(Chatbot, NewFlow, ChatbotOut) :-
 
 %RF7-Constructor
 %system/4
-%Dom: Name (String) X InitialChatbotCodeLink (Number) X Chatbots (List)
+%Descripción: Regla que construye un sistem, solo si la lista de
+% chatbots ingresada no tiene chatbots repetidos.
+%Dom: Name (String) X InitialChatbotCodeLink (Int) X Chatbots (List)
 % X System (List)
 %Meta Primaria: system/4
 %Meta Secundaria: getIdsCB/2, agregarSinRepetirCB/4, get_time/1
@@ -82,6 +94,8 @@ system(Name, InitialChatbotCodeLink, Chatbots, [Name, InitialChatbotCodeLink, Ch
 
 %RF8-Modificador
 %systemAddChatbot/3
+%Descripción: Regla que agrega un chatbot a un sistem, únicamente si
+% este no era parte del sistema antes.
 %Dom: System (List) X NewChatbot (List) X SystemOut (List)
 %Meta Primaria: systemAddChatbot/3
 %Meta Secundaria: getNameSystem/2, getCBCodeSystem/2, getCBsSystem/2,
@@ -104,6 +118,8 @@ systemAddChatbot(System, NewChatbot, SystemOut) :-
 
 %RF9-Modificador
 %systemAddUser/3
+%Descripción: Regla que agrega un usuario a un sistem, únicamente si
+% este no existia en el sistema previamente.
 %Dom: System (List) X NameUser (String) X SystemOut (List)
 %Meta Primaria: systemAddUser/3
 %Meta Secundaria: getNameSystem/2, getCBCodeSystem/2, getCBsSystem/2,
@@ -125,6 +141,9 @@ systemAddUser(System, NameUser, SystemOut) :-
 
 %RF10
 %systemLogin/3
+%Descripción: Regla que inicia la sesión de un ususario en el sistema,
+% solo si el usuario ya esta registrado en el sistema previamente, y si
+% no hay otra sesión iniciada.
 %Dom: System (List) X User (String) X SystemOut (List)
 %Meta Primaria: systemLogin/3
 %Meta Secundaria: mayuscula/2, getUsersSystem/2, getNamesUser/2,
