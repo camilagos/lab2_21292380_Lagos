@@ -6,7 +6,7 @@
 
 %RF2-Constructor
 %option/6
-%Descrpción: Regla que construye una opción, despues de dejar todas las
+%Descripción: Regla que construye una opción, despues de dejar todas las
 % keywords en mayuscula.
 %Dom: Code (Int) X Message (String) x ChatbotCodeLink (Int) X
 % InitialFlowCodeLink (Int) X Keyword (List) X Option (List)

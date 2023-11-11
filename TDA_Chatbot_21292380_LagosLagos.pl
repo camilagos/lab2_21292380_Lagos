@@ -13,8 +13,8 @@ existeCBIDinIDs(ChatbotID, ChatbotIDs) :-
 %------------------SELECTORES--------------------
 
 %getIdCB/2
-%Descripción: Regla que extrae el código de una opción.
-%Dom: Option (List) X Code (Int)
+%Descripción: Regla que extrae el ID de un chatbot.
+%Dom: Chatbot (List) X ChatbotID (Int)
 %Meta Primaria: getIdCB/2
 %Meta Secundaria: No aplica
 getIdCB(Chatbot, ChatbotID) :-
@@ -29,42 +29,85 @@ getIdCB(Chatbot, ChatbotID) :-
 %Meta Secundaria: No aplica
 getIdsCB([], []). %Caso base
 
-%Meta Secundaria: getIdCB/2
+%Meta Secundaria: getIdCB/2, getIdsCB/2
 getIdsCB([Chatbot|Chatbots], [ChatbotID|ChatbotIDs]) :- %Caso recursivo
     getIdCB(Chatbot, ChatbotID),
     getIdsCB(Chatbots, ChatbotIDs).
 
 
-
+%getNameCB/2
+%Descripción: Regla que extrae el nombre de un chatbot.
+%Dom: Chatbot (List) X Name (String)
+%Meta Primaria: getNameCB/2
+%Meta Secundaria: No aplica
 getNameCB(Chatbot, Name) :-
     Chatbot = [_, Name|_].
 
+
+%getMsgCB/2
+%Descripción: Regla que extrae el mensage de un chatbot.
+%Dom: Chatbot (List) X WelcomeMessage (String)
+%Meta Primaria: getMsgCB/2
+%Meta Secundaria: No aplica
 getMsgCB(Chatbot, WelcomeMessage) :-
     Chatbot = [_,_, WelcomeMessage|_].
 
+
+%getStartFlowIdCB/2
+%Descripción: Regla que extrae el ID del flujo inicial de un chatbot.
+%Dom: Chatbot (List) X StartFlowId (Int)
+%Meta Primaria: getStartFlowIdCB/2
+%Meta Secundaria: No aplica
 getStartFlowIdCB(Chatbot, StartFlowId) :-
     Chatbot = [_,_,_, StartFlowId|_].
 
+
+%getFlowsCB/2
+%Descripción: Regla que extrae los flujos de un chatbot.
+%Dom: Chatbot (List) X Flows (List)
+%Meta Primaria: getFlowsCB/2
+%Meta Secundaria: No aplica
 getFlowsCB(Chatbot, Flows) :-
     Chatbot = [_,_,_,_, Flows|_].
 
 %-------------------MODIFICADORES--------------------
 
+%agregarCBFinal/3
+%Descripción: Regla que agrega un chatbot al final de una lista de
+% chatbots.
+%Dom: NewCB (List) X Chatbots (List) X ChatbotsFinal (List)
+%Meta Primaria: agregarCBFinal/3
+%Meta Secundaria: No aplica.
 agregarCBFinal(NewCB, [], [NewCB]). %Caso base
 
+%Meta Secundaria: agregarCBFinal/3
 agregarCBFinal(NewCB, [Chatbot|Chatbots], [Chatbot|ChatbotsFinal]) :- %Caso recursivo
     agregarCBFinal(NewCB, Chatbots, ChatbotsFinal).
 
 
+%agregarSinRepetirCB/4
+%Descripción: Regla recursiva que revisa que en una lista de
+% chatbots no existan repetidos.
+%Dom: Chatbots (List) X ChatbotsIDs (List) X Acumulador (List) X
+% ChatbotsFinal (List)
+%Meta Primaria: agregarSinRepetirCB/4
+%Meta Secundaria: No aplica.
 agregarSinRepetirCB([], [], Acumulador, Acumulador). %Caso base
 
-
+% Meta Secundaria: existeCBIDinIDs2, agregarCBFinal/3, agregarSinRepetirCB/4
 agregarSinRepetirCB([Chatbot|Chatbots], [ChatbotID|ChatbotIDs], Acumulador, ChatbotsFinal) :- %Caso recursivo
     \+ existeCBIDinIDs(ChatbotID,ChatbotIDs),
     agregarCBFinal(Chatbot, Acumulador, AcumuladorOut),
     agregarSinRepetirCB(Chatbots, ChatbotIDs, AcumuladorOut, ChatbotsFinal).
 
 
+%agregarSinRepetirNewCB/4
+%Descripción: Regla que agrega un nuevo chatbot a una lista, solo si no
+% existe previamente.
+%Dom: Chatbots (List) X ChatbotIDs (List) X NewChatbot (List) X
+% ChatbotsFinal (List)
+%Meta Primaria: agregarSinRepetirNewCB/4
+%Meta Secundaria: getIdCB/2, existeCBIDinIDs/2, agregarCBFinal/3
 agregarSinRepetirNewCB(Chatbots, ChatbotIDs, NewChatbot, ChatbotsFinal) :-
     getIdCB(NewChatbot, NewID),
     \+ existeCBIDinIDs(NewID, ChatbotIDs),

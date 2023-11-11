@@ -29,10 +29,60 @@ getCodeOption(Option, Code) :-
 %Meta Secundaria: No aplica
 getCodesOption([], []). %Caso base
 
-%Meta Secundaria: getCodeOption/2
+%Meta Secundaria: getCodeOption/2, getCodesOption/2
 getCodesOption([Option|Options], [Code|Codes]) :-  %Caso recursivo
     getCodeOption(Option, Code),
     getCodesOption(Options, Codes).
+
+
+%getMessageOption/2
+%Descripción: Regla que extrae el mensaje de una opción.
+%Dom: Option (List) X MessageOp (String)
+%Meta Primaria: getMessageOption/2
+%Meta Secundaria: No aplica
+getMessageOption(Option, MessageOp) :-
+    Option = [_, MessageOp|_].
+
+
+%getMessageOps/2
+%Descripción: Regla recursiva que extrae el mensaje de cada opción en
+% una lista de opciones.
+%Dom: Options (List) X MessageOps (List)
+%Meta Primaria: getMessageOps/2
+%Meta Secundaria: No aplica
+getMessageOps([],[]). %Caso base
+
+%Meta Secundaria: getMessageOption/2, getMessageOps/2
+getMessageOps([Option|Options], [MsgOp|MsgOps]) :- %Caso recursivo
+    getMessageOption(Option, MsgOp),
+    getMessageOps(Options, MsgOps).
+
+
+%getCBCodeOption/2
+%Descripción: Regla que extrae el código del chatbot de una opción.
+%Dom: Option (List) X ChatbotID (Int)
+%Meta Primaria: getCBCodeOption/2
+%Meta Secundaria: No aplica
+getCBCodeOption(Option, ChatbotID) :-
+    Option = [_, _, ChatbotID|_].
+
+
+%getCodeFlowOption/2
+%Descripción: Regla que extrae el código del flujo de una opción.
+%Dom: Option (List) X FlowID (Int)
+%Meta Primaria: getCodeFlowOption/2
+%Meta Secundaria: No aplica
+getCodeFlowOption(Option, FlowID) :-
+    Option = [_, _, _, FlowID|_].
+
+
+%getKeywordOption/2
+%Descripción: Regla que extrae las palabras clave de una opción.
+%Dom: Option (List) X Keywords (List)
+%Meta Primaria: getKeywordOption/2
+%Meta Secundaria: No aplica
+getKeywordOption(Option, Keywords) :-
+    Option = [_, _, _, _, Keywords].
 
 %-------------------MODIFICADORES--------------------
 
@@ -54,7 +104,8 @@ agregarOptionFinal(NewOption, Options, OptionsOut) :-
 %Meta Secundaria: No aplica
 agregarSinRepetirOp([], [], Acumulador, Acumulador). %Caso base
 
-%Meta Secundaria: existeCodeinCodes/2, agregarOptionFinal/3
+%Meta Secundaria: existeCodeinCodes/2, agregarOptionFinal/3,
+% agregarSinRepetirOp/4
 agregarSinRepetirOp([Option|Options], [Code|Codes], Acumulador, OptionsFinal) :- %Caso recursivo
     \+ existeCodeinCodes(Code, Codes),
     agregarOptionFinal(Option, Acumulador, AcumuladorOut),
@@ -93,7 +144,7 @@ mayuscula(Keyword, KeywordMayus) :-
 %Meta Secundaria: No aplica.
 allMayus([],[]). %Caso base
 
-%Meta Secundaria: mayuscula/2
+%Meta Secundaria: mayuscula/2, allMayus/2
 allMayus([Keyword|Keywords], [KeywordMayus|KeywordsMayus]) :- %Caso recursivo
     mayuscula(Keyword, KeywordMayus),
     allMayus(Keywords, KeywordsMayus).

@@ -30,7 +30,7 @@ getIdFlow(Flow, Id) :-
 %Meta Secundaria: No aplica
 getIdsFlow([], []). %Caso base
 
-%Meta Secundaria: getIdFlow/2
+%Meta Secundaria: getIdFlow/2, getIdsFlow/2
 getIdsFlow([Flow|Flows], [Id|Ids]) :- %Caso recursivo
     getIdFlow(Flow, Id),
     getIdsFlow(Flows, Ids).
@@ -63,7 +63,7 @@ getOptionsFlow(Flow, Options) :-
 %Meta Secundaria: No aplica.
 agregarFlowFinal(NewFlow, [], [NewFlow]). %Caso base
 
-%Meta Secundaria:
+%Meta Secundaria: agregarFlowFinal/3
 agregarFlowFinal(NewFlow, [Flow|Flows], [Flow|FlowsFinal]) :- %Caso recursivo
     agregarFlowFinal(NewFlow, Flows, FlowsFinal).
 
@@ -76,7 +76,7 @@ agregarFlowFinal(NewFlow, [Flow|Flows], [Flow|FlowsFinal]) :- %Caso recursivo
 %Meta Secundaria: No aplica.
 agregarSinRepetirFlow([], [], Acumulador, Acumulador). %Caso base
 
-%Meta Secundaria: existeIdinIds/2, agregarFlowFinal/3
+%Meta Secundaria: existeIdinIds/2, agregarFlowFinal/3, agregarSinRepetirFlow/4
 agregarSinRepetirFlow([Flow|Flows], [Id|Ids], Acumulador, FlowsFinal) :- %Caso recursivo
     \+ existeIdinIds(Id, Ids),
     agregarFlowFinal(Flow, Acumulador, AcumuladorOut),
@@ -90,7 +90,6 @@ agregarSinRepetirFlow([Flow|Flows], [Id|Ids], Acumulador, FlowsFinal) :- %Caso r
 %Meta Primaria: agregarSinRepetirNewFlow/4
 %Meta Secundaria: getIdFlow/2, existeIdinIds/2,
 % agregarFlowFinal/3
-
 agregarSinRepetirNewFlow(Flows, Ids, NewFlow, FlowsFinal) :-
     getIdFlow(NewFlow, NewId),
     \+ existeIdinIds(NewId, Ids),
