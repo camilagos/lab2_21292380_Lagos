@@ -94,3 +94,18 @@ agregarSinRepetirNewFlow(Flows, Ids, NewFlow, FlowsFinal) :-
     getIdFlow(NewFlow, NewId),
     \+ existeIdinIds(NewId, Ids),
     agregarFlowFinal(NewFlow, Flows, FlowsFinal).
+
+%-------------------OTROS--------------------
+
+%buscarFlowinFlows/4
+%Descripción: Regla recursiva que busca un flujo en una lista de
+% flujos a partir de su código.
+%Dom: StartFlow (Int) X FlowIds (List) X Flows (List) X
+% Flow (List)
+%Meta Primaria: buscarFlowinFlows/4
+%Meta Secundaria: No aplica.
+buscarFlowinFlows(StartFlow, [StartFlow|_], [Flow|_], Flow). %Caso base
+
+%Meta Secundaria: buscarFlowinFlows/4
+buscarFlowinFlows(StartFlow, [_|FlowIds], [_|Flows], Flow) :- %Caso recursivo
+    buscarFlowinFlows(StartFlow, FlowIds, Flows, Flow).

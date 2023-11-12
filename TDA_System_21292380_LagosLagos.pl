@@ -10,6 +10,16 @@
 %Meta Secundaria: No aplica.
 systemAux(Name, InitialChatbotCodeLink, Chatbots, Time, Users, UserLogueado, Estado, NewCodes, [Name, InitialChatbotCodeLink, Chatbots, Time, Users, UserLogueado, Estado, NewCodes]).
 
+%------------------PERTENENCIA--------------------
+
+%existenInteracciones/1
+%Descripción: Regla que verifica la existencia de interacciones en un
+% sistema.
+%Dom: Estado (String)
+%Meta Primaria: existenInteracciones/1
+%Meta Secundaria: No aplica.
+existenInteracciones("Con interacciones válidas").
+
 %------------------SELECTORES--------------------
 
 %getNameSystem/2
@@ -82,3 +92,23 @@ getEstadoSystem(System, Estado) :-
 %Meta Secundaria: No aplica.
 getNewCodesSystem(System, NewCodes) :-
     System = [_, _, _, _, _, _, _, NewCodes|_].
+
+
+%getChatbotID/2
+%Descripción: Regla que extrae de los nuevos códigos de un sistema, el
+% código del chatbot.
+%Dom: NewCodes (List) X ChatbotID (Int)
+%Meta Primaria: getChatbotID/2
+%Meta Secundaria: No aplica.
+getChatbotID(NewCodes, ChatbotID) :-
+    NewCodes = [ChatbotID|_].
+
+
+%getFlowId/2
+%Descripción: Regla que extrae de los nuevos códigos de un sistema, el
+% código del flujo.
+%Dom: NewCodes (List) X FlowID (Int)
+%Meta Primaria: getFlowId/2
+%Meta Secundaria: No aplica.
+getFlowId(NewCodes, FlowID) :-
+    NewCodes = [_, FlowID|_].

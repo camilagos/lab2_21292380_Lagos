@@ -148,3 +148,49 @@ allMayus([],[]). %Caso base
 allMayus([Keyword|Keywords], [KeywordMayus|KeywordsMayus]) :- %Caso recursivo
     mayuscula(Keyword, KeywordMayus),
     allMayus(Keywords, KeywordsMayus).
+
+%stringtonumber/2
+%Descripción: Regla que deja en formato número a un string.
+%Dom: String (String) X Num (Int)
+%Meta Primaria: stringtonumber/2
+%Meta Secundaria: number_string/2
+stringtonumber(String, Num) :-
+    number_string(Num, String).
+
+
+%igualCode/2
+%Descripción: Regla que verifica que dos códigos sean iguales.
+%Dom: Code (Int) X Code (Int)
+%Meta Primaria: igualCode/2
+%Meta Secundaria: No aplica.
+igualCode(Code, Code).
+
+
+%buscarMessageinOptions/4
+%Descripción: Regla recursiva que busca un mensaje en la lista de
+% opciones, cambiando la forma de busqueda si el mensaje es el número de
+% opción o una keyword.
+%Dom: Message (String) X Options (List) X ChatbotID (Int) X
+% FlowID (Int)
+%Meta Primaria: buscarMessageinOptions/4
+%Meta Secundaria: stringtonumber/2, getCodeOption/2, igualCode/2,
+% getCBCodeOption/2, getCodeFlowOption/2
+buscarMessageinOptions(Message, [Option|_], ChatbotID, FlowID) :- %Caso base
+    stringtonumber(Message, Num),
+    getCodeOption(Option, Code),
+    igualCode(Code, Num),
+    getCBCodeOption(Option, ChatbotID),
+    getCodeFlowOption(Option, FlowID).
+
+%Meta Secundaria: mayuscula/2, getKeywordOption/2, member/2,
+% getCBCodeOption/2, getCodeFlowOption/2
+buscarMessageinOptions(Message, [Option|_], ChatbotID, FlowID) :- %Caso base
+    mayuscula(Message, Msg),
+    getKeywordOption(Option, Keywords),
+    member(Msg, Keywords),
+    getCBCodeOption(Option, ChatbotID),
+    getCodeFlowOption(Option, FlowID).
+
+%Meta Secundaria: buscarMessageinOptions/4
+buscarMessageinOptions(Message, [_|Options], ChatbotID, FlowID) :- %Caso recursivo
+    buscarMessageinOptions(Message, Options, ChatbotID, FlowID).

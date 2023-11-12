@@ -112,3 +112,19 @@ agregarSinRepetirNewCB(Chatbots, ChatbotIDs, NewChatbot, ChatbotsFinal) :-
     getIdCB(NewChatbot, NewID),
     \+ existeCBIDinIDs(NewID, ChatbotIDs),
     agregarCBFinal(NewChatbot, Chatbots, ChatbotsFinal).
+
+
+%-------------------OTROS--------------------
+
+%buscarCBinCBs/4
+%Descripción: Regla recursiva que busca un chatbot en una lista de
+% chatbots a partir de su código.
+%Dom: InitialChatbotCodeLink (Int) X ChatbotIDs (List) X Chatbots
+% (List) X Chatbots (List)
+%Meta Primaria: buscarCBinCBs/4
+%Meta Secundaria: No aplica.
+buscarCBinCBs(InitialChatbotCodeLink, [InitialChatbotCodeLink|_], [Chatbot|_], Chatbot). %Caso base
+
+%Meta Secundaria: buscarCBinCBs/4
+buscarCBinCBs(InitialChatbotCodeLink, [_|ChatbotIDs], [_|Chatbots], Chatbot) :- %Caso recursivo
+    buscarCBinCBs(InitialChatbotCodeLink, ChatbotIDs, Chatbots, Chatbot).
