@@ -54,3 +54,31 @@ getNameMsgCH(ChatHistory, NameMsg) :-
 %Meta Secundaria: No aplica.
 getOptionsCH(ChatHistory, Options) :-
     ChatHistory = [_, _, _, _, Options|_].
+
+%-------------------OTROS--------------------
+
+%sintetizarInteracciones/3
+%Descripción: Regla recursiva que sintetiza el historial de un usuario.
+% Dom: ChatHistory (List) X User (String) X InteraccionesOut (List)
+%Meta Primaria: sintetizarInteracciones/3
+%Meta Secundaria: No aplica.
+sintetizarInteracciones([], _, []). %Caso base
+
+% Meta Secundaria: getTimeCH/2, getMessageCH/2, getNameCBCH/2,
+% getNameMsgCH/2, getOptionsCH/2, getMessageOps/2, atomic_list_concat/3,
+% sintetizarInteracciones/3
+sintetizarInteracciones([ChatHistory|Interacciones], User, [Str1|Resto]) :- %Caso recursivo
+    getTimeCH(ChatHistory, Time),
+    getMessageCH(ChatHistory, Message),
+    getNameCBCH(ChatHistory, NameCB),
+    getNameMsgCH(ChatHistory, NameMsg),
+    getOptionsCH(ChatHistory, Options),
+    getMessageOps(Options, MsgOps),
+    atomic_list_concat([Time, User], ' - ', Acum1),
+    atomic_list_concat([Acum1, Message], ':', Linea1),
+    atomic_list_concat([Time, NameCB], ' - ', Acum2),
+    atomic_list_concat([Acum2, NameMsg], ':', Linea2),
+    atomic_list_concat([Linea1, Linea2], '\n', Acum),
+    atomic_list_concat(MsgOps, '\n', Ops),
+    atomic_list_concat([Acum, Ops], '\n', Str1),
+    sintetizarInteracciones(Interacciones, User, Resto).

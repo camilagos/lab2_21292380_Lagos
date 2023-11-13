@@ -150,7 +150,7 @@ allMayus([Keyword|Keywords], [KeywordMayus|KeywordsMayus]) :- %Caso recursivo
     allMayus(Keywords, KeywordsMayus).
 
 %stringtonumber/2
-%Descripción: Regla que deja en formato número a un string.
+%Descripción: Regla que deja en formato número un string.
 %Dom: String (String) X Num (Int)
 %Meta Primaria: stringtonumber/2
 %Meta Secundaria: number_string/2

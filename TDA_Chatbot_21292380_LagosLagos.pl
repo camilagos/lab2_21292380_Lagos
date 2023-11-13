@@ -45,7 +45,7 @@ getNameCB(Chatbot, Name) :-
 
 
 %getMsgCB/2
-%Descripción: Regla que extrae el mensage de un chatbot.
+%Descripción: Regla que extrae el mensaje de un chatbot.
 %Dom: Chatbot (List) X WelcomeMessage (String)
 %Meta Primaria: getMsgCB/2
 %Meta Secundaria: No aplica
@@ -120,7 +120,7 @@ agregarSinRepetirNewCB(Chatbots, ChatbotIDs, NewChatbot, ChatbotsFinal) :-
 %Descripción: Regla recursiva que busca un chatbot en una lista de
 % chatbots a partir de su código.
 %Dom: InitialChatbotCodeLink (Int) X ChatbotIDs (List) X Chatbots
-% (List) X Chatbots (List)
+% (List) X Chatbot (List)
 %Meta Primaria: buscarCBinCBs/4
 %Meta Secundaria: No aplica.
 buscarCBinCBs(InitialChatbotCodeLink, [InitialChatbotCodeLink|_], [Chatbot|_], Chatbot). %Caso base

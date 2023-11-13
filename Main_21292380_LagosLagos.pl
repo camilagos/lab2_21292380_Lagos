@@ -3,6 +3,19 @@
 :-consult('tda_chatbot_21292380_lagoslagos.pl').
 :-consult('tda_system_21292380_lagoslagos.pl').
 :-consult('tda_user_21292380_lagoslagos.pl').
+:-consult('tda_chathistory_21292380_lagoslagos.pl').
+
+/*
+RF1-Representación
+
+option = code X message X chatbotcodelink X initialflowcodelink X keyword|null
+flow = ID X name-msg X option|null
+chatbot =  chatbotID X name X welcomemessage X startflowID X flows|null
+system = name X initialchatbotcodelink X chatbot|null X time X users|null X usuario-logueado|null X estado|null X new-codes|null
+user = name X chatHistory
+chatHistory = time X message X name-chatbot X name-msg X options
+
+*/
 
 %RF2-Constructor
 %option/6
@@ -94,7 +107,7 @@ system(Name, InitialChatbotCodeLink, Chatbots, [Name, InitialChatbotCodeLink, Ch
 
 %RF8-Modificador
 %systemAddChatbot/3
-%Descripción: Regla que agrega un chatbot a un sistem, únicamente si
+%Descripción: Regla que agrega un chatbot a un sistema, únicamente si
 % este no era parte del sistema antes.
 %Dom: System (List) X NewChatbot (List) X SystemOut (List)
 %Meta Primaria: systemAddChatbot/3
@@ -118,7 +131,7 @@ systemAddChatbot(System, NewChatbot, SystemOut) :-
 
 %RF9-Modificador
 %systemAddUser/3
-%Descripción: Regla que agrega un usuario a un sistem, únicamente si
+%Descripción: Regla que agrega un usuario a un sistema, únicamente si
 % este no existia en el sistema previamente.
 %Dom: System (List) X NameUser (String) X SystemOut (List)
 %Meta Primaria: systemAddUser/3
@@ -141,7 +154,7 @@ systemAddUser(System, NameUser, SystemOut) :-
 
 %RF10
 %systemLogin/3
-%Descripción: Regla que inicia la sesión de un ususario en el sistema,
+%Descripción: Regla que inicia la sesión de un usuario en el sistema,
 % solo si el usuario ya esta registrado en el sistema previamente, y si
 % no hay otra sesión iniciada.
 %Dom: System (List) X User (String) X SystemOut (List)
@@ -192,7 +205,7 @@ systemLogout(System, SystemOut) :-
 %Descripción: Regla que permite interactuar con un chatbot.
 %Dom: System (List) X Message (String) X SystemOut (List)
 %Meta Primaria: systemTalkRec/3
-%Meta Secundaria: getUserLogueadoSystem/2, noHayUserLogueado/1,
+%Meta Secundaria: getUserLogueadoSystem/2, noExisteUserLogueado/1,
 % getEstadoSystem/2, existenInteracciones/1, getCBCodeSystem/2,
 % getCBsSystem/2, getIdsCB/2, buscarCBinCBs/4, getFlowsCB/2,
 % getStartFlowIdCB/2, getIdsFlow/2, buscarFlowinFlows/4,
@@ -203,7 +216,7 @@ systemLogout(System, SystemOut) :-
 % systemAux/9
 systemTalkRec(System, Message, SystemOut) :-
     getUserLogueadoSystem(System, UserLogueado),
-    \+ noHayUserLogueado(UserLogueado),
+    \+ noExisteUserLogueado(UserLogueado),
     getEstadoSystem(System, Estado),
     \+ existenInteracciones(Estado),
     getCBCodeSystem(System, InitialChatbotCodeLink),
@@ -233,7 +246,7 @@ systemTalkRec(System, Message, SystemOut) :-
     agregarUserFinal(NewUser, UsersModificada, NewUsers),
     systemAux(Name, InitialChatbotCodeLink, Chatbots, Time, NewUsers, UserLogueado, NewEstado, NewCodes, SystemOut).
 
-%Meta Secundaria: getUserLogueadoSystem/2, noHayUserLogueado/1,
+%Meta Secundaria: getUserLogueadoSystem/2, noExisteUserLogueado/1,
 % getEstadoSystem/2, existenInteracciones/1, getNewCodesSystem/2,
 % getChatbotID/2, getFlowId/2, getCBsSystem/2, getIdsCB/2,
 % buscarCBinCBs/4, getFlowsCB/2, getIdsFlow/2, buscarFlowinFlows/4,
@@ -244,7 +257,7 @@ systemTalkRec(System, Message, SystemOut) :-
 % systemAux/9
 systemTalkRec(System, Message, SystemOut) :-
     getUserLogueadoSystem(System, UserLogueado),
-    \+ noHayUserLogueado(UserLogueado),
+    \+ noExisteUserLogueado(UserLogueado),
     getEstadoSystem(System, Estado),
     existenInteracciones(Estado),
     getNewCodesSystem(System, NewCodes),
@@ -274,3 +287,23 @@ systemTalkRec(System, Message, SystemOut) :-
     select(User, Users, UsersModificada),
     agregarUserFinal(NewUser, UsersModificada, NewUsers),
     systemAux(Name, InitialChatbotCodeLink, Chatbots, Time, NewUsers, UserLogueado, Estado, NewCodesModificados, SystemOut).
+
+
+%RF13
+%systemSynthesis/2
+%Descripción: Regla que muestra el historial de interacciones de un
+% usuario en el sistema.
+%Dom: System (List) X User (List) X StrFinal (String)
+%Meta Primaria: systemSynthesis/2
+%Meta Secundaria: getUsersSystem/2, getNamesUser/2, mayuscula/2,
+% buscarUserinUsers/4, getChatHistoryUser/2, sintetizarInteracciones/3,
+% atomic_list_concat/3, write/1
+systemSynthesis(System, User, StrFinal) :-
+    getUsersSystem(System, Users),
+    getNamesUser(Users, NamesUsers),
+    mayuscula(User, UserMayus),
+    buscarUserinUsers(UserMayus, NamesUsers, Users, UserOut),
+    getChatHistoryUser(UserOut, HistoryUser),
+    sintetizarInteracciones(HistoryUser, User, Str),
+    atomic_list_concat(Str, '\n\n', StrFinal),
+    write(StrFinal).

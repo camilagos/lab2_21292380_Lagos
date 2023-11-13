@@ -62,7 +62,7 @@ getChatHistoryUser(User, ChatHistory) :-
 %-------------------MODIFICADORES--------------------
 
 %agregarUserFinal/3
-%Descripción: Regla que agrega un opción al final de una lista de
+%Descripción: Regla que agrega una opción al final de una lista de
 % opciones.
 %Dom: NewUser (List) X Users (List) X UsersFinal (List)
 %Meta Primaria: agregarUserFinal/3
@@ -116,7 +116,7 @@ logout(User, []) :-
 %buscarUserinUsers/4
 %Descripción: Regla recursiva que busca un usuario en una lista de
 % usuarios.
-%Dom: NameUser (String) X NameUsers (List) X Users (List) X Users (List)
+%Dom: NameUser (String) X NameUsers (List) X Users (List) X User (List)
 %Meta Primaria: buscarUserinUsers/4
 %Meta Secundaria: No aplica.
 buscarUserinUsers(NameUser, [NameUser|_], [User|_], User). %Caso base

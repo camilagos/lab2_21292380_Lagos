@@ -56,7 +56,7 @@ getOptionsFlow(Flow, Options) :-
 %-------------------MODIFICADORES--------------------
 
 %agregarFlowFinal/3
-%Descripción: Regla que agrega un opción al final de una lista de
+%Descripción: Regla que agrega una opción al final de una lista de
 % opciones.
 %Dom: NewFlow (List) X Flows (List) X FlowsFinal (List)
 %Meta Primaria: agregarFlowFinal/3

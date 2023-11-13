@@ -1,1 +1,2 @@
 # lab2_21292380_Lagos
+Para asegurar una correcta ejecución el archivo principal, TDAs y pruebas deben encontrarse en la misma carpeta. Luego se debe abrir el archivo de pruebas y es recomendable usar el comando “set_prolog_flag(answer_write_options,[max_depth(0)]).” en la consola de consultas de Prolog, para poder visualizar correctamente los resultados. Finalmente, se podrá copiar los scripts de prueba en la consola consultando al archivo de pruebas, o al principal.
